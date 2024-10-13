@@ -11,7 +11,7 @@ header{
     top: 0;
     left: 0;
     width: 100%;
-    padding: 30px 100px;
+    padding: 30px 100px; 
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -21,19 +21,17 @@ header{
     font-size: 1.7em;
     cursor: default;
     color: #FFFFFF;
-    letter-spacing: .1em;
     text-shadow: 0 0 10px rgba(0, 0, 0, .8);
 }
-
 .navigation a{
     /* color: #FFFFFF; */
     font-size: 1.1em;
-    margin-left: 12px;
+    /* margin-left: 12px; */
     text-decoration: none;
     padding: 6px 15px;
     font-weight: 600;
 }
-.setup{
+.endResults{
     position: relative;
     width: 100%;
     height: 100vh;
@@ -42,23 +40,34 @@ header{
     background-position: center;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center;   
 }
-.hostPage{
+.leaderboard{
     color: #FFFFFF;
-    text-align: left;
+   
     letter-spacing: .1em;
     text-shadow: 0 0 10px rgba(0, 0, 0, .8);
 }
 h1{
-    font-size: 2.5em;
-    position: relative; /* or 'absolute' depending on your layout */
-    left: 0; /* Moves the element to the left */
+    font-size: 3em;
+}
+h2{
+    /* first place */
+    font-size: 2.0em;
+    color: #FFDD00;
 }
 h3{
-    font-size: 4.5em;
-    position: relative; /* or 'absolute' depending on your layout */
-    left: 0; /* Moves the element to the left */
+    /* second place */
+    font-size: 2.0em;
+    color: #A0A0A0;
 }
-
-
+h4{
+    /* third place */
+    font-size: 2.0em;
+    color: #9E412F;
+}
+h5{
+    display: flex;
+    justify-content: center;
+    font-size: 1.5em;
+}

@@ -3,31 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="hoststyle.css">
+    <link rel="stylesheet" type="text/css" href="end_matchstyle.css">
     <title>Host Page</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
-    <style>
-        #qrcode {
-            margin-top: 20px;
-        }
-    </style>
 </head>
 <body>
+    <script 
+ src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js">
+    </script>
     <header>
         <h2 class="logo">Mixer MD</h2>
         <nav class="navigation">
         </nav>
     </header>
-    <section class="setup">
-        <div class="hostPage">
-            <h1>Your top 3 matches:</h1>
-            <h3>
-                1<br>
-                2<br>
-                3
-            </h3>
-        </div>
-    </section>
+        <section class="endResults">
+            <div class="leaderboard">
+                <h1>Your top matches were:</h1>
+                <h2>1. </h2>
+                <h3>2. </h3>
+                <h4>3. </h4>
+                <!-- template -->
+                <h5>You all had the same emoji: 😊</h5>
+                <h5>You all had # of questions in common</h5>
+                <h5>Go find each other!</h5>
+            
+            </div> 
+        </section>
+
+    <script>
+        // Trigger confetti when the page loads
+        window.onload = function() {
+            // Set up confetti options
+            var duration = 1 * 1000; // 5 seconds
+            var end = Date.now() + duration;
+
+            // Confetti function
+            (function frame() {
+                // Launch confetti
+                confetti({
+                    particleCount: 7,
+                    angle: 30,
+                    spread: 85,
+                    origin: { x: 0 },
+                });
+                confetti({
+                    particleCount: 7,
+                    angle: 150,
+                    spread: 85,
+                    origin: { x: 1 },
+                });
+
+                // Continue until the duration ends
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            })();
+        };
+    </script>
 </body>
 </html>
