@@ -94,3 +94,27 @@ def get_emoji_story(session_id):
         return jsonify({"emoji_story": emoji_story}), 200
     else:
         return jsonify({"message": "Emoji story not available yet"}), 404
+
+
+@game_bp.route('/<session_id>/guess', methods=['POST'])
+def guess_emoji_story(session_id):
+    """
+    User guesses which emoji story matches their original story.
+    """
+    data = request.get_json()
+    if not data:
+        return jsonify({"message": "No data provided"}), 400
+
+    user_id = data.get('user_id')
+    guessed_user_id = data.get('guessed_user_id')
+
+    if not user_id or not guessed_user_id:
+        return jsonify({"message": "User ID and guessed user ID are required"}), 400
+
+    # Check if the guessed emoji story matches the user's original story
+    correct = GameSession.check_guess(session_id, user_id, guessed_user_id)
+
+    if correct:
+        return jsonify({"message": "Correct guess!", "result": "win"}), 200
+    else:
+        return jsonify({"message": "Incorrect guess", "result": "lose"}), 200

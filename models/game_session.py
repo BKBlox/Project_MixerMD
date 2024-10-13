@@ -121,3 +121,26 @@ class GameSession:
             return session.get('emoji_story2')
         else:
             return None
+
+    @staticmethod
+    def check_guess(session_id, user_id, guessed_user_id):
+        """
+        Check if the guessed user's emoji story matches the original story of the user.
+        """
+        session = mongo.db.game_sessions.find_one({"_id": ObjectId(session_id)})
+        if not session:
+            return False
+
+        # Get the original story of the user
+        user_story = None
+        for participant in session['participants']:
+            if participant['user_id'] == user_id:
+                user_story = participant['story']
+                break
+
+        # Now, check if the emoji story of the guessed user matches the original story
+        for participant in session['participants']:
+            if participant['user_id'] == guessed_user_id:
+                return participant['emoji_story'] == user_story
+
+        return False
