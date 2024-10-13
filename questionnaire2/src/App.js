@@ -146,6 +146,7 @@ function App() {
         if (currentQuestion === questions.length - 1) {
             setIsWaiting(true);
             // Send data to the server
+            window.location.href="/emojifeeling.html"; // temporary, so REACT runs without fetch server
             fetch('http://localhost:5000/submit', {
                 method: 'POST',
                 headers: {
