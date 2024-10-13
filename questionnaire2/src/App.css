@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins: wght@300;400;500; 600; 700; 800;900&display=swap');
+
+* {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+.logo{
+    font-size: 1.7em;
+    cursor: default;
+    color: #FFFFFF;
+}
+
+.navigation a{
+    /* color: #FFFFFF; */
+    font-size: 1.1em;
+    margin-left: 12px;
+    text-decoration: none;
+    padding: 6px 15px;
+    font-weight: 600;
+}
+.home{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background: url('space.png') center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size-adjust: 0.75;
+}
+.loginPage1{
+    color: #FFFFFF;
+    text-align: center;
+    letter-spacing: .1em;
+    text-shadow: 0 0 10px rgba(0, 0, 0, .8);
+}
+
+/* Container for radio buttons */
+.radio-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Hide the default radio button */
+.radio-container input[type="radio"] {
+    display: none;
+}
+
+/* Custom radio button styling */
+.radio-container label {
+    position: relative;
+    padding-left: 40px;  /* More padding to fit larger radio buttons */
+    cursor: pointer;
+    font-size: 18px;     /* Increase text size */
+    line-height: 24px;
+    color: white;        /* Adjust text color */
+}
+
+/* Custom circle for the radio button */
+.radio-container label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;          /* Set custom size */
+    height: 24px;
+    border-radius: 50%;   /* Makes the circle */
+    background-color: white;
+    border: 5px solid #8A2777;  /* Increase the border thickness */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+}
+
+/* Inner dot when radio is checked */
+.radio-container input[type="radio"]:checked + label:before {
+    background-color: #C519A5;  /* Background color when checked */
+    border-color: #8A2777;
+}
+
+/* Add the inner dot when radio button is checked */
+.radio-container input[type="radio"]:checked + label:after {
+    content: '';
+    position: absolute;
+    left: 6px;             /* Adjust position for inner dot */
+    top: 6px;              /* Adjust position for inner dot */
+    width: 0px;           /* Inner dot size */
+    height: 0px;          /* Inner dot size */
+    border-radius: 50%;
+    background-color: white; /* Inner dot color */
+}
+
+/* Hover effect to indicate interactiveness */
+.radio-container label:hover:before {
+    border-color: #DD66FF;
+}
+
+
+
+
+h3{
+    font-size: 3.5em;
+}
+
+/* h1{
+    font-size: 0.5em;
+    padding-bottom: 30px;
+} */
+
+button{
+    font-size: 1.3em;
+    color: #FFFFFF;
+    font-weight: 600;
+    padding: 10px 50px;
+    cursor: pointer;
+    border-radius: 40px;
+    background: #DD66FF;
+    border: 0px transparent;
+    transition: .3s;
+}
+button:hover{
+    background: #FFFFFF;
+    color: #000000;
+}
+@media (max-width: 1000px) {
+    .logo{
+        font-size: 7em;
+    }
+    h3 {
+        font-size: 7.5em; /* Adjust this size as needed */
+        line-height: 1.3
+    }
+    button {
+        padding: 50px 130px; /* Adjust padding as needed */
+        font-size: 5em;    /* Increase font size */
+        border-radius: 50px;  /* Optional: adjust border radius */
+        margin: 10px;
+    }
+
+
+
+}
