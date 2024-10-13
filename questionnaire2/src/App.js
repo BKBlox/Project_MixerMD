@@ -99,12 +99,29 @@ function App() {
     // State to track current question and user responses
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [responses, setResponses] = useState(Array(questions.length).fill(''));
+    const [username, setUsername] = useState('');        // State to store the username
+    const [hasStarted, setHasStarted] = useState(false); // State to track if the questionnaire has started
+
+    // Handle the change of username input
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value);
+    };
 
     // Handle the selection of an answer
     const handleOptionChange = (event) => {
         const updatedResponses = [...responses];
         updatedResponses[currentQuestion] = event.target.value;
         setResponses(updatedResponses);
+    };
+
+    // Handle starting the questionnaire
+    const startQuestionnaire = (event) => {
+        event.preventDefault();
+        if (username.trim() !== '') {
+            setHasStarted(true);  // Move to the questionnaire screen
+        } else {
+            alert('Please enter a username to start');
+        }
     };
 
     // Move to the next question
@@ -130,6 +147,23 @@ function App() {
     return (
         <section className="home">
             <div style={{padding: '20px', maxWidth: '600px', margin: 'auto'}}>
+                <form onSubmit={startQuestionnaire}>
+                    <h1>Welcome to the Questionnaire</h1>
+                    <div>
+                        <label htmlFor="username">Please enter your username to begin:</label>
+                        <input
+                            type="text"
+                            id="username"
+                            value={username}
+                            onChange={handleUsernameChange}
+                            required
+                            style={{padding: '10px', fontSize: '16px', margin: '10px 0', width: '100%'}}
+                        />
+                    </div>
+                    <button type="submit" style={{padding: '10px 20px', fontSize: '16px'}}>
+                        Start
+                    </button>
+                </form>
                 <h1>Questionnaire</h1>
                 <form onSubmit={handleSubmit}>
                     <h2>{questions[currentQuestion].question}</h2>
@@ -142,9 +176,9 @@ function App() {
                                 checked={responses[currentQuestion] === option}
                                 onChange={handleOptionChange}
                                 required
-                        />
-                        <label htmlFor={`option-${index}`}>{option}</label>
-                    </div>
+                            />
+                            <label htmlFor={`option-${index}`}>{option}</label>
+                        </div>
                     ))}
                     <button type="submit">{currentQuestion === questions.length - 1 ? 'Finish' : 'Next'}</button>
                 </form>
