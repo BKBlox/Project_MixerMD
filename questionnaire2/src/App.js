@@ -138,12 +138,32 @@ function App() {
     };
 
     // Handle form submission
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (currentQuestion === questions.length - 1) {
+            try {
+            const response = await fetch('http://localhost:5000/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(responses),
+            });
+
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                console.log(jsonResponse.status); // Optional: Show success status
+                // Navigate to the wait screen or perform any other action
+            } else {
+                console.error('Error submitting data');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+            // Upload responses using Flask
             alert("Questionnaire completed! Your responses: " + JSON.stringify(responses));
             // Reset questionnaire
-            setCurrentQuestion(0);
+            setCurrentQuestion(1);
             setResponses(Array(questions.length).fill(''));
             setIsWaiting(true);
         } else {

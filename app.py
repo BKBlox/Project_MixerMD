@@ -1,7 +1,8 @@
 # app.py
 
-from flask import Flask
+from flask import Flask, request, JSON
 from flask_cors import CORS
+from flask_cors import cross_origin
 from config import Config
 from extensions import mongo  # Import mongo from extensions.py
 
@@ -13,7 +14,12 @@ app.config.from_object(Config)
 mongo.init_app(app)
 
 # Enable CORS
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
+@app.route('/submit', methods=['POST'])
+def submit():
+
+
 
 # Register Blueprints
 from routes import user_bp, test_bp, game_bp
