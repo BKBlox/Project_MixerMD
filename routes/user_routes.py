@@ -4,9 +4,38 @@ from flask import Blueprint, request, jsonify
 from models.user import User
 from bson.objectid import ObjectId
 from utils.helpers import match_users
+from utils.csv_handler import write_to_csv, read_from_csv
 
 user_bp = Blueprint('users', __name__)
 
+@user_bp.route('/submit-questionnaire', methods=['POST'])
+def submit_questionnaire():
+    """
+    User submits their information through a questionnaire.
+    """
+    data = request.get_json()
+    if not data:
+        return jsonify({"message": "No data provided"}), 400
+
+    # Validate that the required fields are present
+    required_fields = ['user_id', 'username', 'email', 'story']
+    if not all(field in data for field in required_fields):
+        return jsonify({"message": "All fields are required"}), 400
+
+    # Optional: Validate user existence if needed
+    user_id = data.get('user_id')
+    if not User.get_user_by_id(user_id):  # Assuming you have a method to validate user
+        return jsonify({"message": "User not found"}), 404
+
+    # Write the data to the CSV file
+    write_to_csv(data)
+    return jsonify({"message": "Data saved successfully"}), 200
+
+@user_bp.route('/get-users', methods=['GET'])
+def get_users():
+    """Retrieve all user data from the CSV file."""
+    users = read_from_csv()
+    return jsonify(users), 200
 
 @user_bp.route('/create', methods=['POST'])
 def create_user():
