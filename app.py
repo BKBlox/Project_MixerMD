@@ -22,7 +22,7 @@ def home():
 if __name__ == "__main__":
     app.run(debug=True)
 
-@app.route('/submit', methods=['POST'])
+@app.route('/submit', methods=['POST', 'OPTIONS'])
 def submit():
     try:
         responses = request.get_json() # data
@@ -52,7 +52,3 @@ from routes import user_bp, test_bp, game_bp
 app.register_blueprint(user_bp, url_prefix='/api/users')
 app.register_blueprint(test_bp, url_prefix='/api/test')
 app.register_blueprint(game_bp, url_prefix='/api/game')
-
-# Run the application
-if __name__ == "__main__":
-    app.run(debug=True)
