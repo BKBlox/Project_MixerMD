@@ -96,94 +96,65 @@ const questions = [
 ];
 
 function App() {
-    // State to track current question and user responses
-    const [currentQuestion, setCurrentQuestion] = useState(1);
-    const [responses, setResponses] = useState(Array(questions.length + 1).fill(''));
-    const [username, setUsername] = useState('');        // State to store the username
-    const [hasStarted, setHasStarted] = useState(false); // State to track if the questionnaire has started
-    const [isWaiting, setIsWaiting] = useState(false);   // State to track if the user is on the waiting screen
-    const [userShort, setUserShort] = useState('');
-    const [selectedOption, setSelectedOption] = useState(''); // Track selected option for the current question
+    const [currentQuestion, setCurrentQuestion] = useState(0);
+    const [response, setResponse] = useState(''); // Store the latest response as a string
+    const [username, setUsername] = useState('');
+    const [hasStarted, setHasStarted] = useState(false);
+    const [isWaiting, setIsWaiting] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('');
 
-    // Handle the change of username input
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
     };
 
-    // Handle the selection of an answer
     const handleOptionChange = (event) => {
-        const updatedResponses = [...responses];
-        updatedResponses[currentQuestion] = event.target.value;
-        setResponses(updatedResponses);
-        setSelectedOption(event.target.value); // Update selected option
+        setSelectedOption(event.target.value);
     };
 
-    // Handle starting the questionnaire
     const startQuestionnaire = (event) => {
         event.preventDefault();
         if (username.trim() !== '') {
-            const updatedResponses = [...responses];
-            updatedResponses[0] = username;
-            setResponses(updatedResponses);
-            setHasStarted(true);  // Move to the questionnaire screen
-            setUserShort(username.trim().charAt(0) + ".");
+            setHasStarted(true);
         } else {
             alert('Please enter a username to start');
         }
     };
 
-    // Move to the next question
     const nextQuestion = () => {
         if (currentQuestion < questions.length - 1 && selectedOption.length) {
-            setSelectedOption('')
+            // Save the selected option as the latest response
+            setResponse(selectedOption);
+            setSelectedOption(''); // Reset the selected option
             setCurrentQuestion(currentQuestion + 1);
         }
     };
 
-    // Handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (currentQuestion === questions.length - 1) {
+            // Save the final response
+            setResponse(selectedOption);
+            display(); // Save response to local storage
             setIsWaiting(true);
-            // Send data to the server
-            await delay(5000);
-            window.location.href="/emojifeeling.html"; // temporary, so REACT runs without fetch server
-            fetch('http://localhost:5000/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(responses),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to submit data');
-                }
-                return response.json();  // Parse JSON from the response
-            })
-            .then(jsonResponse => {
-                if (jsonResponse.status === 'success') {
-                    document.cookie = `userId=${jsonResponse.uuid};path=/;max-age=86400`;  // 1 day expiration
-                    const userId = getCookie('userId');
-                    window.location.href="/emojifeeling.html";
-                } else {
-                    console.error('Submission failed:', jsonResponse.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Optionally handle errors, such as displaying a notification to the user
-            });
+            // Simulate delay for demonstration
+            await delay(2000);
+            window.location.href = "/emojifeeling.html"; // Redirect
         } else {
             nextQuestion();
         }
     };
 
+    // Function to store the latest response in local storage
+    const display = () => {
+        // Save only the latest response as a string
+        localStorage.setItem('userResponse', response);
+        console.log('User response saved to local storage:', response);
+    };
+
     return (
         <div className="home">
-            <div style={{padding: '20px', maxWidth: '600px', margin: 'auto', color: 'white'}}>
+            <div style={{ padding: '20px', maxWidth: '600px', margin: 'auto', color: 'white' }}>
                 {!hasStarted ? (
-                    // Render username input screen
                     <form onSubmit={startQuestionnaire}>
                         <h1>Personality Test</h1>
                         <div className="userscreen">
@@ -194,22 +165,20 @@ function App() {
                                 value={username}
                                 onChange={handleUsernameChange}
                                 required
-                                style={{padding: '10px', fontSize: '16px', margin: '10px 0', width: '100%'}}
+                                style={{ padding: '10px', fontSize: '16px', margin: '10px 0', width: '100%' }}
                             />
                         </div>
-                        <button type="submit" style={{padding: '10px 20px', fontSize: '16px'}}>
+                        <button type="submit" style={{ padding: '10px 20px', fontSize: '16px' }}>
                             Start
                         </button>
                     </form>
-                    ) : isWaiting ? (
-                    // Render waiting screen
+                ) : isWaiting ? (
                     <div>
                         <h1>Congrats, {username}!</h1>
                         <h2>You've been matched!</h2>
                         <h4>Wait here until the next game starts....</h4>
                     </div>
                 ) : (
-                    // Render questionnaire screen
                     <form onSubmit={handleSubmit}>
                         <h2>{questions[currentQuestion].question}</h2>
                         {questions[currentQuestion].options.map((option, index) => (
@@ -218,7 +187,7 @@ function App() {
                                     type="radio"
                                     id={`option-${index}`}
                                     value={option}
-                                    checked={responses[currentQuestion] === option}
+                                    checked={selectedOption === option}
                                     onChange={handleOptionChange}
                                     required
                                 />
@@ -233,12 +202,6 @@ function App() {
             </div>
         </div>
     );
-}
-
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
 function delay(ms) {

@@ -8,26 +8,27 @@
 </head>
 <body>
     <script 
- src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js">
+        src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js">
     </script>
     <header>
         <h2 class="logo">Mixer MD</h2>
-        <nav class="navigation">
-        </nav>
+        <nav class="navigation"></nav>
     </header>
-        <section class="endResults">
-            <div class="leaderboard">
-                <h1>Your top matches were:</h1>
-                <h2>1. </h2>
-                <h3>2. </h3>
-                <h4>3. </h4>
-                <!-- template -->
-                <h5>You all had the same emoji: 😊</h5>
-                <h5>You all had # of questions in common</h5>
-                <h5>Go find each other!</h5>
-            
-            </div> 
-        </section>
+    <section class="endResults">
+        <div class="leaderboard">
+            <h1>Your top matches were:</h1>
+            <h2>1. </h2>
+            <h3>2. </h3>
+            <h4>3. </h4>
+            <!-- Display stored emoji -->
+            <h5>You all had the same emoji:</h5>
+            <h6><span id="emojiDisplay"></span></h6>
+            <!-- Display user response -->
+            <h5>Your most common response: </h5>
+            <h5><span id="responseDisplay"></span></h5>
+            <h5>Go find each other!</h5>
+        </div> 
+    </section>
 
     <script>
         // Trigger confetti when the page loads
@@ -57,6 +58,14 @@
                     requestAnimationFrame(frame);
                 }
             })();
+
+            // Retrieve variables from local storage
+            const emoji = localStorage.getItem('emo');
+            const userResponse = localStorage.getItem('userResponse'); // Ensure this variable is set in local storage
+
+            // Display the emoji and user response
+            document.getElementById('emojiDisplay').textContent = emoji || 'No emoji selected';
+            document.getElementById('responseDisplay').textContent = userResponse || 'No response recorded';
         };
     </script>
 </body>

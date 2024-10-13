@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- test -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,25 +40,19 @@
         </div>
 
         <script>
-            function hideAll(){
+            function hideAll() {
                 document.querySelector('.choosingPage').classList.add('hidden');
                 document.querySelector('.promptPage').classList.remove('hidden');
             }
 
             // Function to store emotion in local storage
             function display() {
-                const emotionText = document.getElementById('emotion').textContent;
-                // const emojiText = document.getElementById('bouncyEmoji').textContent;
+                const emotionText = document.getElementById('bouncyEmoji').textContent;
                 localStorage.setItem('emo', `${emotionText}`);
             }
 
-            // Happy Script
-            function happy(){
-                var text = "Happy";
-                var emoji = "😊";
-                var q1 = "What’s the happiest moment you’ve ever experienced?";
-                var q2 = "And what made it so special?";
-
+            // Function to handle emoji selection and redirect
+            function handleEmojiSelection(text, emoji, q1, q2) {
                 hideAll();
                 document.getElementById("emotion").textContent = text;
                 document.getElementById("bouncyEmoji").textContent = emoji;
@@ -67,54 +60,31 @@
                 document.getElementById("question2").textContent = q2;
 
                 display(); // Store the emotion in local storage
+
+                // Wait 5 seconds and then redirect
+                setTimeout(() => {
+                    window.location.href = 'end_match.html';
+                }, 5000);
+            }
+
+            // Happy Script
+            function happy() {
+                handleEmojiSelection("Happy", "😊", "What’s the happiest moment you’ve ever experienced?", "And what made it so special?");
             }
 
             // Zanny Script
-            function zanny(){
-                var text = "Zanny";
-                var emoji = "🤪";
-                var q1 = "If you could communicate with any animal,";
-                var q2 = "which one would you pick?";
-
-                hideAll();
-                document.getElementById("emotion").textContent = text;
-                document.getElementById("bouncyEmoji").textContent = emoji;
-                document.getElementById("question1").textContent = q1;
-                document.getElementById("question2").textContent = q2;
-
-                display(); // Store the emotion in local storage
+            function zanny() {
+                handleEmojiSelection("Zanny", "🤪", "If you could communicate with any animal,", "which one would you pick?");
             }
 
             // Nervous Script
-            function nervous(){
-                var text = "Nervous";
-                var emoji = "😰";
-                var q1 = "What activities do you practice to calm down?";
-                var q2 = "To calm down when stressed?";
-
-                hideAll();
-                document.getElementById("emotion").textContent = text;
-                document.getElementById("bouncyEmoji").textContent = emoji;
-                document.getElementById("question1").textContent = q1;
-                document.getElementById("question2").textContent = q2;
-
-                display(); // Store the emotion in local storage
+            function nervous() {
+                handleEmojiSelection("Nervous", "😰", "What activities do you practice to calm down?", "To calm down when stressed?");
             }
 
             // Thinking Script
-            function thinking(){
-                var text = "Thinking";
-                var emoji = "🤔";
-                var q1 = "What is one conspiracy theory that you believe in the most?";
-                var q2 = "";
-
-                hideAll();
-                document.getElementById("emotion").textContent = text;
-                document.getElementById("bouncyEmoji").textContent = emoji;
-                document.getElementById("question1").textContent = q1;
-                document.getElementById("question2").textContent = q2;
-
-                display(); // Store the emotion in local storage
+            function thinking() {
+                handleEmojiSelection("Thinking", "🤔", "What is one conspiracy theory that you believe in the most?", "");
             }
         </script>
     </section>
