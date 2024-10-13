@@ -145,25 +145,33 @@ function App() {
         event.preventDefault();
         if (currentQuestion === questions.length - 1) {
             setIsWaiting(true);
-            try {
-            const response = await fetch('http://localhost:5000/submit', {
+            // Send data to the server
+            fetch('http://localhost:5000/submit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(responses),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to submit data');
+                }
+                return response.json();  // Parse JSON from the response
+            })
+            .then(jsonResponse => {
+                if (jsonResponse.status === 'success') {
+                    document.cookie = `userId=${jsonResponse.uuid};path=/;max-age=86400`;  // 1 day expiration
+                    const userId = getCookie('userId');
+                    console.log('User ID:', userId);
+                } else {
+                    console.error('Submission failed:', jsonResponse.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Optionally handle errors, such as displaying a notification to the user
             });
-
-            if (response.ok) {
-                const jsonResponse = response.json();
-                console.log(jsonResponse.status); // Optional: Show success status
-                // Navigate to the wait screen or perform any other action
-            } else {
-                console.error('Error submitting data');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
         } else {
             nextQuestion();
         }
@@ -223,6 +231,12 @@ function App() {
             </div>
         </div>
     );
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
 export default App;

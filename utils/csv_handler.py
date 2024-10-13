@@ -8,12 +8,15 @@ def write_to_csv(data): # will need to somehow return unique user id to user web
     current_dir = os.path.dirname(__file__)  # Directory where csv_handler.py is located
     FILE_PATH = os.path.join(current_dir, '../data/users.csv') # FINAL, DO NOT CHANGE UNLESS DATA PATH CHANGES
 
+    with open(FILE_PATH, 'r') as file:
+        user_uuid = sum(1 for line in file) + 1
     with open(FILE_PATH, mode='a', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=["name", "ans1", "ans2", "ans3", "ans4", "ans5",
-                                                  "ans6", "ans7", "ans8", "ans9", "ans10"])
+                                                  "ans6", "ans7", "ans8", "ans9", "ans10", "uuid"])
         writer.writerow({"name":data.get("name"), "ans1":data.get("ans1"), "ans2":data.get("ans2"), "ans3":data.get("ans3"),
                          "ans4":data.get("ans4"), "ans5":data.get("ans5"), "ans6":data.get("ans6"), "ans7":data.get("ans7"),
-                         "ans8":data.get("ans8"), "ans9":data.get("ans9"), "ans10":data.get("ans10") })
+                         "ans8":data.get("ans8"), "ans9":data.get("ans9"), "ans10":data.get("ans10"), "uuid":user_uuid})
+    return user_uuid
 
 def read_from_csv():
     """Read all rows from the CSV file and return them as a list of dictionaries."""

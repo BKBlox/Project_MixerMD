@@ -20,22 +20,20 @@ CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 def submit():
     try:
         responses = request.get_json() # data
-        print(responses)
         if not responses:
             return jsonify({'message': 'No input data provided'}), 400  # Bad Request
         # Validate the data
         if not responses or not isinstance(responses, list) or len(responses) != 11:
             return jsonify({'message': 'Username + exactly 10 responses are required.'}), 400
         # Further validation: Ensure none of the responses are empty
-        print("Making json_dict")
         json_dict = {"name" : responses[0]}
         i = 1
         while i < len(responses):
             key = "ans" + str(i)
             json_dict.update({key : responses[i]})
             i += 1
-        write_to_csv(json_dict)
-        return "0" # return the row the user was written to (UUID) to be passed back to user script?
+        user_uuid = write_to_csv(json_dict)
+        return jsonify({"status": "success", "uuid": user_uuid}), 200
     except Exception as e:
         app.logger.error(f'Error in /submit route: {e}')
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
