@@ -207,6 +207,10 @@ function App() {
                         <h1>Congrats, {username}!</h1>
                         <h2>You've been matched!</h2>
                         <h4>Wait here until the next game starts....</h4>
+                        {/*<div>*/}
+                        {/*    <img src="/Rolling@1x-1.0s-200px-200px.gif" alt="Loading animation"*/}
+                        {/*         style="max-width: 50%; height: auto;"/>*/}
+                        {/*</div>*/}
                     </div>
                 ) : (
                     // Render questionnaire screen
