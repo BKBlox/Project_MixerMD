@@ -3,26 +3,21 @@ from utils.csv_handler import write_to_csv
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from config import Config
-from extensions import mongo  # Import mongo from extensions.py
 
 # Initialize Flask app
 app = Flask(__name__)
 app.config.from_object(Config)
 
 # Initialize PyMongo with the app
-mongo.init_app(app)
 
 # Enable CORS
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"]}})
 
 @app.route('/')
 def home():
     return render_template('index.html')  # This will serve the 'index.html' file
 
-if __name__ == "__main__":
-    app.run(debug=True)
-
-@app.route('/submit', methods=['POST', 'OPTIONS'])
+@app.route('/submit', methods=['POST'])
 def submit():
     try:
         responses = request.get_json() # data
@@ -44,8 +39,8 @@ def submit():
         app.logger.error(f'Error in /submit route: {e}')
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
 
-if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+if __name__ == '__main__': # DO NOT HAVE MULTIPLE OF THESE IN THIS FILE
+    app.run(port=5000)
 
 # Register Blueprints
 from routes import user_bp, test_bp, game_bp
