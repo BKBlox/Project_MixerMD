@@ -39,7 +39,7 @@ def submit():
         app.logger.error(f'Error in /submit route: {e}')
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500
 
-if __name__ == '__main__':
+if __name__ == '__main__': # DO NOT HAVE MULTIPLE OF THESE IN THIS FILE
     app.run(port=5000)
 
 # Register Blueprints
