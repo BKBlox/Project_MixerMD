@@ -1,117 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset = "UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewpoint" content= "width=device-width, initial-scale=1.0">
-        <title>Mixer MD</title>
-        <link rel="stylesheet" type="text/css" href="feelingstyle.css">
-        <style>
-            .hidden {
-                display: none; /* Hide elements with this class */
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixer MD</title>
+    <link rel="stylesheet" type="text/css" href="feelingstyle.css">
+    <style>
+        .hidden {
+            display: none; /* Hide elements with this class */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2 class="logo">Mixer MD</h2>
+        <nav class="navigation"></nav>
+    </header>
+    <section class="emojiFeeling">
+        <div class="choosingPage">
+            <h1>Choose from one of the following emojis!</h1>
+            <div class="emojiRow1">
+                <button id="Happy" onclick="happy()">😊</button>
+                <button id="Zanny" onclick="zanny()">🤪</button>
+            </div>
+            <div class="emojiRow2">
+                <button id="Nervous" onclick="nervous()">😰</button>
+                <button id="Thinking" onclick="thinking()">🤔</button>
+            </div>
+        </div>
+
+        <div class="promptPage hidden">
+            <h1>You chose the following emoji</h1>
+            <h1 id="emotion"></h1>
+            <h6 id="bouncyEmoji"></h6>
+            <h1>Find another person and respond to the question below!</h1>
+            <h2 id="question1"></h2>
+            <h2 id="question2"></h2>
+        </div>
+
+        <script>
+            function hideAll(){
+                document.querySelector('.choosingPage').classList.add('hidden');
+                document.querySelector('.promptPage').classList.remove('hidden');
             }
-        </style>
-        <body>
-            <header>
-                <h2 class="logo">Mixer MD</h2>
-                <nav class="navigation">
-                </nav>
-            </header>
-            <section class="emojiFeeling">
-                <div class="choosingPage">
-                    <h1>Choose from one of the following emojis!</h1>
-                    <div class="emojiRow1">
-                        <button id="Happy" onclick="happy()">😊</button>
-                        <button id="Zanny" onclick="zanny()">🤪</button>
-                    </div>
-                    <div class="emojiRow2">
-                        <button id="Nervous" onclick="nervous()">😰</button>
-                        <button id="Thinking" onclick="thinking()">🤔</button>
-                    </div>
-                </div>
 
-                <div class="promptPage hidden">
-                    <h1>You chose the following emoji</h1>
-                    <h1 id="emotion"></h1>
-                    <h6 id="bouncyEmoji"></h6>
-                    <h1>Find another person and respond to the question below!</h1>
-                    <h2 id="question1"></h2>
-                    <h2 id="question2"></h2>
-                  
-                </div>
+            // Function to store emotion in local storage
+            function display() {
+                const emotionText = document.getElementById('emotion').textContent;
+                // const emojiText = document.getElementById('bouncyEmoji').textContent;
+                localStorage.setItem('emo', `${emotionText}`);
+            }
 
+            // Happy Script
+            function happy(){
+                var text = "Happy";
+                var emoji = "😊";
+                var q1 = "What’s the happiest moment you’ve ever experienced?";
+                var q2 = "And what made it so special?";
 
-                <!-- Scripts for each emoji -->
-                 <!-- Main disappear script -->
-                <script>
-                    function hideAll(){
-                        document.querySelector('.choosingPage').classList.add('hidden');
-                        document.querySelector('.promptPage').classList.remove('hidden');
-                    }
-                </script>
+                hideAll();
+                document.getElementById("emotion").textContent = text;
+                document.getElementById("bouncyEmoji").textContent = emoji;
+                document.getElementById("question1").textContent = q1;
+                document.getElementById("question2").textContent = q2;
 
-                <!-- Happy Script -->
-                 <script>
-                    function happy(){
-                        var text = "Happy";
-                        var emoji = "😊";
-                        var q1 = "What’s the happiest moment you’ve ever experienced,";
-                        var q2 = "and what made it so special?";
+                display(); // Store the emotion in local storage
+            }
 
-                        hideAll();
-                        document.getElementById("emotion").textContent = text;
-                        document.getElementById("bouncyEmoji").textContent = emoji;
-                        document.getElementById("question1").textContent = q1;
-                        document.getElementById("question2").textContent = q2;
-                    }
-                 </script>
-                 <!-- Zanny Script -->
-                 <script>
-                    function zanny(){
-                        var text = "Zanny";
-                        var emoji = "🤪";
-                        var q1 = "If you could communicate with any animal,";
-                        var q2 = "which one would you pick?";
+            // Zanny Script
+            function zanny(){
+                var text = "Zanny";
+                var emoji = "🤪";
+                var q1 = "If you could communicate with any animal,";
+                var q2 = "which one would you pick?";
 
-                        hideAll();
-                        document.getElementById("emotion").textContent = text;
-                        document.getElementById("bouncyEmoji").textContent = emoji;
-                        document.getElementById("question1").textContent = q1;
-                        document.getElementById("question2").textContent = q2;
-                    }
-                 </script>
-                 <!-- Nervous Script -->
-                 <script>
-                    function nervous(){
-                        var text = "Nervous";
-                        var emoji = "😰";
-                        var q1 = "What activities do you practice to calm";
-                        var q2 = "to calm down when stressed?";
+                hideAll();
+                document.getElementById("emotion").textContent = text;
+                document.getElementById("bouncyEmoji").textContent = emoji;
+                document.getElementById("question1").textContent = q1;
+                document.getElementById("question2").textContent = q2;
 
-                        hideAll();
-                        document.getElementById("emotion").textContent = text;
-                        document.getElementById("bouncyEmoji").textContent = emoji;
-                        document.getElementById("question1").textContent = q1;
-                        document.getElementById("question2").textContent = q2;
-                    }
-                 </script>
-                 <!-- Thinking Script -->
-                 <script>
-                    function thinking(){
-                        var text = "Thinking";
-                        var emoji = "🤔";
-                        var q1 = "What is one conspiracy theory that";
-                        var q2 = "you believe in the most?";
+                display(); // Store the emotion in local storage
+            }
 
-                        hideAll();
-                        document.getElementById("emotion").textContent = text;
-                        document.getElementById("bouncyEmoji").textContent = emoji;
-                        document.getElementById("question1").textContent = q1;
-                        document.getElementById("question2").textContent = q2;
-                    }
-                 </script>
+            // Nervous Script
+            function nervous(){
+                var text = "Nervous";
+                var emoji = "😰";
+                var q1 = "What activities do you practice to calm down?";
+                var q2 = "To calm down when stressed?";
 
-            </section>
-        </body>
-    </head>
+                hideAll();
+                document.getElementById("emotion").textContent = text;
+                document.getElementById("bouncyEmoji").textContent = emoji;
+                document.getElementById("question1").textContent = q1;
+                document.getElementById("question2").textContent = q2;
+
+                display(); // Store the emotion in local storage
+            }
+
+            // Thinking Script
+            function thinking(){
+                var text = "Thinking";
+                var emoji = "🤔";
+                var q1 = "What is one conspiracy theory that you believe in the most?";
+                var q2 = "";
+
+                hideAll();
+                document.getElementById("emotion").textContent = text;
+                document.getElementById("bouncyEmoji").textContent = emoji;
+                document.getElementById("question1").textContent = q1;
+                document.getElementById("question2").textContent = q2;
+
+                display(); // Store the emotion in local storage
+            }
+        </script>
+    </section>
+</body>
 </html>
