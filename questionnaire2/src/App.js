@@ -97,10 +97,12 @@ const questions = [
 
 function App() {
     // State to track current question and user responses
-    const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [responses, setResponses] = useState(Array(questions.length).fill(''));
+    const [currentQuestion, setCurrentQuestion] = useState(1);
+    const [responses, setResponses] = useState(Array(questions.length + 1).fill(''));
     const [username, setUsername] = useState('');        // State to store the username
     const [hasStarted, setHasStarted] = useState(false); // State to track if the questionnaire has started
+    const [isWaiting, setIsWaiting] = useState(false);   // State to track if the user is on the waiting screen
+    const [userShort, setUserShort] = useState('');
 
     // Handle the change of username input
     const handleUsernameChange = (event) => {
@@ -118,7 +120,11 @@ function App() {
     const startQuestionnaire = (event) => {
         event.preventDefault();
         if (username.trim() !== '') {
+            const updatedResponses = [...responses];
+            updatedResponses[0] = username;
+            setResponses(updatedResponses);
             setHasStarted(true);  // Move to the questionnaire screen
+            setUserShort(username.trim().charAt(0) + ".");
         } else {
             alert('Please enter a username to start');
         }
@@ -139,52 +145,65 @@ function App() {
             // Reset questionnaire
             setCurrentQuestion(0);
             setResponses(Array(questions.length).fill(''));
+            setIsWaiting(true);
         } else {
             nextQuestion();
         }
     };
 
     return (
-        <section className="home">
-            <div style={{padding: '20px', maxWidth: '600px', margin: 'auto'}}>
-                <form onSubmit={startQuestionnaire}>
-                    <h1>Welcome to the Questionnaire</h1>
-                    <div>
-                        <label htmlFor="username">Please enter your username to begin:</label>
-                        <input
-                            type="text"
-                            id="username"
-                            value={username}
-                            onChange={handleUsernameChange}
-                            required
-                            style={{padding: '10px', fontSize: '16px', margin: '10px 0', width: '100%'}}
-                        />
-                    </div>
-                    <button type="submit" style={{padding: '10px 20px', fontSize: '16px'}}>
-                        Start
-                    </button>
-                </form>
-                <h1>Questionnaire</h1>
-                <form onSubmit={handleSubmit}>
-                    <h2>{questions[currentQuestion].question}</h2>
-                    {questions[currentQuestion].options.map((option, index) => (
-                        <div className="radio-container" key={index}>
+        <div className="home">
+            <div style={{padding: '20px', maxWidth: '600px', margin: 'auto', color: 'white'}}>
+                {!hasStarted ? (
+                    // Render username input screen
+                    <form onSubmit={startQuestionnaire}>
+                        <h1>Personality Test</h1>
+                        <div className="userscreen">
+                            <label htmlFor="username">Enter your name to begin:</label>
                             <input
-                                type="radio"
-                                id={`option-${index}`}
-                                value={option}
-                                checked={responses[currentQuestion] === option}
-                                onChange={handleOptionChange}
+                                type="text"
+                                id="username"
+                                value={username}
+                                onChange={handleUsernameChange}
                                 required
+                                style={{padding: '10px', fontSize: '16px', margin: '10px 0', width: '100%'}}
                             />
-                            <label htmlFor={`option-${index}`}>{option}</label>
                         </div>
-                    ))}
-                    <button type="submit">{currentQuestion === questions.length - 1 ? 'Finish' : 'Next'}</button>
-                </form>
+                        <button type="submit" style={{padding: '10px 20px', fontSize: '16px'}}>
+                            Start
+                        </button>
+                    </form>
+                    ) : isWaiting ? (
+                    // Render waiting screen
+                    <div>
+                        <h1>Congrats, {userShort}!</h1>
+                        <h2>You've been matched!</h2>
+                        <h4>Wait here until the next game starts....</h4>
+                    </div>
+                ) : (
+                    // Render questionnaire screen
+                    <form onSubmit={handleSubmit}>
+                        <h2>{questions[currentQuestion].question}</h2>
+                        {questions[currentQuestion].options.map((option, index) => (
+                            <div className="radio-container" key={index}>
+                                <input
+                                    type="radio"
+                                    id={`option-${index}`}
+                                    value={option}
+                                    checked={responses[currentQuestion] === option}
+                                    onChange={handleOptionChange}
+                                    required
+                                />
+                                <label htmlFor={`option-${index}`}>{option}</label>
+                            </div>
+                        ))}
+                        <button type="submit">
+                            {currentQuestion === questions.length - 1 ? 'Finish' : 'Next'}
+                        </button>
+                    </form>
+                )}
             </div>
-        </section>
-
+        </div>
     );
 }
 

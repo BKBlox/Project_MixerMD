@@ -36,17 +36,15 @@ header{
     width: 100%;
     height: 100vh;
     background-size: cover;
-    background: url('space.png') center;
+    background: url('../../templates/space.png') center;
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
     font-size-adjust: 0.75;
+    text-shadow: 0 0 10px rgba(0, 0, 0, .8);
 }
-.loginPage1{
-    color: #FFFFFF;
-    text-align: center;
-    letter-spacing: .1em;
+.userscreen{
     text-shadow: 0 0 10px rgba(0, 0, 0, .8);
 }
 
@@ -55,6 +53,7 @@ header{
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(0, 0, 0, .8);
 }
 
 /* Hide the default radio button */
@@ -136,6 +135,13 @@ button:hover{
     background: #FFFFFF;
     color: #000000;
 }
+input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
 @media (max-width: 1000px) {
     .logo{
         font-size: 7em;
@@ -146,7 +152,7 @@ button:hover{
     }
     button {
         padding: 50px 130px; /* Adjust padding as needed */
-        font-size: 5em;    /* Increase font size */
+        font-size: 10vw;    /* Increase font size */
         border-radius: 50px;  /* Optional: adjust border radius */
         margin: 10px;
     }
