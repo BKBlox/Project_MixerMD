@@ -163,7 +163,7 @@ function App() {
                 if (jsonResponse.status === 'success') {
                     document.cookie = `userId=${jsonResponse.uuid};path=/;max-age=86400`;  // 1 day expiration
                     const userId = getCookie('userId');
-                    console.log('User ID:', userId);
+                    window.location.href="/emojifeeling.html";
                 } else {
                     console.error('Submission failed:', jsonResponse.error);
                 }
@@ -202,7 +202,7 @@ function App() {
                     ) : isWaiting ? (
                     // Render waiting screen
                     <div>
-                        <h1>Congrats, {userShort}!</h1>
+                        <h1>Congrats, {username}!</h1>
                         <h2>You've been matched!</h2>
                         <h4>Wait here until the next game starts....</h4>
                     </div>
