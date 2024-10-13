@@ -1,7 +1,7 @@
 # routes/test_routes.py
 
 from flask import Blueprint, jsonify
-from app import mongo
+from extensions import mongo
 
 test_bp = Blueprint('test', __name__)
 
