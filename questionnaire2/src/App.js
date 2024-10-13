@@ -163,7 +163,7 @@ function App() {
                 if (jsonResponse.status === 'success') {
                     document.cookie = `userId=${jsonResponse.uuid};path=/;max-age=86400`;  // 1 day expiration
                     const userId = getCookie('userId');
-                    window.location.href = "/emojifeeling.html"
+                    console.log('User ID:', userId);
                 } else {
                     console.error('Submission failed:', jsonResponse.error);
                 }
