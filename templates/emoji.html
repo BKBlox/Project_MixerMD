@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset = "UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewpoint" content= "width=device-width, initial-scale=1.0">
+        <title>Mixer MD</title>
+        <link rel="stylesheet" type="text/css" href="emojistyle.css">
+
+        <body>
+            <header>
+                <h2 class="logo">Mixer MD</h2>
+                <nav class="navigation">
+                </nav>
+            </header>
+            <section class="emojiPage">
+                <div class="page1">
+                    <!-- below are the emoji game instructions -->
+                    <h3 id="title">The Emoji Story Game!</h3>
+                    <p id="instruction1" >Rules: Type a phrase in emojis that could tell a story. </p>
+                    <p id="instruction2">After that you will be given someone elses phrase to give a story to! </p>    
+                    <p id="instruction3">Once you are done try to find your connected pair!</p>
+
+                    <!-- <button>Player</button> -->
+                    <button id="startButton" onclick="hidePage1()">Start</button>
+                </div>
+                    <script>
+                        function hidePage1() {
+                            // Hiding the instructions
+                            //document.getElementById('page1').style.display = 'none';
+                            document.querySelector('.page1').classList.add('hidden');
+                        }
+                    </script>
+                
+            </section>
+        </body>
+    </head>
+</html>
