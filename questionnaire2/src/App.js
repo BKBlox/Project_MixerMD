@@ -146,6 +146,7 @@ function App() {
         if (currentQuestion === questions.length - 1) {
             setIsWaiting(true);
             // Send data to the server
+            await delay(5000);
             window.location.href="/emojifeeling.html"; // temporary, so REACT runs without fetch server
             fetch('http://localhost:5000/submit', {
                 method: 'POST',
@@ -238,6 +239,10 @@ function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 export default App;
