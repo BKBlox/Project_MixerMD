@@ -1,9 +1,6 @@
-# models/user.py
-
-from app import mongo
+from extensions import mongo  # Changed from 'from app import mongo'
 from bson.objectid import ObjectId
 from datetime import datetime
-
 
 class User:
     @staticmethod
@@ -26,7 +23,8 @@ class User:
         """
         try:
             return mongo.db.users.find_one({"_id": ObjectId(user_id)})
-        except:
+        except Exception as e:
+            # Log the exception e if necessary
             return None
 
     @staticmethod
@@ -52,7 +50,8 @@ class User:
                 }
             )
             return result.modified_count > 0
-        except:
+        except Exception as e:
+            # Log the exception e if necessary
             return False
 
     @staticmethod
@@ -63,5 +62,6 @@ class User:
         try:
             result = mongo.db.users.delete_one({"_id": ObjectId(user_id)})
             return result.deleted_count > 0
-        except:
+        except Exception as e:
+            # Log the exception e if necessary
             return False
