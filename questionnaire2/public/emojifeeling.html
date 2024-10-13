@@ -73,8 +73,19 @@
             }
 
             // Zanny Script
-            function zanny() {
-                handleEmojiSelection("Zanny", "🤪", "If you could communicate with any animal,", "which one would you pick?");
+            function zanny(){
+                var text = "Zany";
+                var emoji = "🤪";
+                var q1 = "If you could communicate with any animal,";
+                var q2 = "which one would you pick?";
+
+                hideAll();
+                document.getElementById("emotion").textContent = text;
+                document.getElementById("bouncyEmoji").textContent = emoji;
+                document.getElementById("question1").textContent = q1;
+                document.getElementById("question2").textContent = q2;
+
+                display(); // Store the emotion in local storage
             }
 
             // Nervous Script
