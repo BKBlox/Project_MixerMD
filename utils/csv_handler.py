@@ -3,15 +3,17 @@ import os
 
 CSV_FILE_PATH = 'data/users.csv'
 
-def write_to_csv(data):
+def write_to_csv(data): # will need to somehow return unique user id to user website
     """Append a new row to the CSV file."""
-    file_exists = os.path.isfile(CSV_FILE_PATH)
+    current_dir = os.path.dirname(__file__)  # Directory where csv_handler.py is located
+    FILE_PATH = os.path.join(current_dir, '../data/users.csv') # FINAL, DO NOT CHANGE UNLESS DATA PATH CHANGES
 
-    with open(CSV_FILE_PATH, mode='a', newline='') as file:
-        writer = csv.writer(file)
-        if not file_exists:
-            writer.writerow(data.keys())  # Write headers if file doesn't exist
-        writer.writerow(data.values())
+    with open(FILE_PATH, mode='a', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=["name", "ans1", "ans2", "ans3", "ans4", "ans5",
+                                                  "ans6", "ans7", "ans8", "ans9", "ans10"])
+        writer.writerow({"name":data.get("name"), "ans1":data.get("ans1"), "ans2":data.get("ans2"), "ans3":data.get("ans3"),
+                         "ans4":data.get("ans4"), "ans5":data.get("ans5"), "ans6":data.get("ans6"), "ans7":data.get("ans7"),
+                         "ans8":data.get("ans8"), "ans9":data.get("ans9"), "ans10":data.get("ans10") })
 
 def read_from_csv():
     """Read all rows from the CSV file and return them as a list of dictionaries."""

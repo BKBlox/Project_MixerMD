@@ -1,8 +1,7 @@
 # app.py
-
+from utils.csv_handler import write_to_csv
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from flask_cors import cross_origin
 from config import Config
 from extensions import mongo  # Import mongo from extensions.py
 
@@ -20,33 +19,23 @@ CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 @app.route('/submit', methods=['POST'])
 def submit():
     try:
-        data = request.get_json()
-
-        if not data:
+        responses = request.get_json() # data
+        print(responses)
+        if not responses:
             return jsonify({'message': 'No input data provided'}), 400  # Bad Request
-
-        # Extract the user's name and responses
-        name = data.get('name')
-        responses = data.get('responses')
-
         # Validate the data
-        if not name:
-            return jsonify({'message': 'User name is required.'}), 400
-
-        if not responses or not isinstance(responses, list) or len(responses) != 10:
-            return jsonify({'message': 'Exactly 10 responses are required.'}), 400
-
+        if not responses or not isinstance(responses, list) or len(responses) != 11:
+            return jsonify({'message': 'Username + exactly 10 responses are required.'}), 400
         # Further validation: Ensure none of the responses are empty
-        if not all(responses):
-            return jsonify({'message': 'All responses must be provided and non-empty.'}), 400
-
-        # Process the data (e.g., save to database)
-        # For example:
-        # save_user_responses(name, responses)
-
-        # Return a success response
-        return jsonify({'message': 'Data received successfully!', 'name': name, 'responses': responses}), 200
-
+        print("Making json_dict")
+        json_dict = {"name" : responses[0]}
+        i = 1
+        while i < len(responses):
+            key = "ans" + str(i)
+            json_dict.update({key : responses[i]})
+            i += 1
+        write_to_csv(json_dict)
+        return "0" # return the row the user was written to (UUID) to be passed back to user script?
     except Exception as e:
         app.logger.error(f'Error in /submit route: {e}')
         return jsonify({'message': 'An error occurred', 'error': str(e)}), 500

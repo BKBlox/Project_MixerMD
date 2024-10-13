@@ -103,6 +103,7 @@ function App() {
     const [hasStarted, setHasStarted] = useState(false); // State to track if the questionnaire has started
     const [isWaiting, setIsWaiting] = useState(false);   // State to track if the user is on the waiting screen
     const [userShort, setUserShort] = useState('');
+    const [selectedOption, setSelectedOption] = useState(''); // Track selected option for the current question
 
     // Handle the change of username input
     const handleUsernameChange = (event) => {
@@ -114,6 +115,7 @@ function App() {
         const updatedResponses = [...responses];
         updatedResponses[currentQuestion] = event.target.value;
         setResponses(updatedResponses);
+        setSelectedOption(event.target.value); // Update selected option
     };
 
     // Handle starting the questionnaire
@@ -132,7 +134,8 @@ function App() {
 
     // Move to the next question
     const nextQuestion = () => {
-        if (currentQuestion < questions.length - 1) {
+        if (currentQuestion < questions.length - 1 && selectedOption.length) {
+            setSelectedOption('')
             setCurrentQuestion(currentQuestion + 1);
         }
     };
@@ -141,6 +144,7 @@ function App() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (currentQuestion === questions.length - 1) {
+            setIsWaiting(true);
             try {
             const response = await fetch('http://localhost:5000/submit', {
                 method: 'POST',
@@ -151,7 +155,7 @@ function App() {
             });
 
             if (response.ok) {
-                const jsonResponse = await response.json();
+                const jsonResponse = response.json();
                 console.log(jsonResponse.status); // Optional: Show success status
                 // Navigate to the wait screen or perform any other action
             } else {
@@ -160,12 +164,6 @@ function App() {
         } catch (error) {
             console.error('Error:', error);
         }
-            // Upload responses using Flask
-            alert("Questionnaire completed! Your responses: " + JSON.stringify(responses));
-            // Reset questionnaire
-            setCurrentQuestion(1);
-            setResponses(Array(questions.length).fill(''));
-            setIsWaiting(true);
         } else {
             nextQuestion();
         }
@@ -217,7 +215,7 @@ function App() {
                                 <label htmlFor={`option-${index}`}>{option}</label>
                             </div>
                         ))}
-                        <button type="submit">
+                        <button type="submit" disabled={!selectedOption}>
                             {currentQuestion === questions.length - 1 ? 'Finish' : 'Next'}
                         </button>
                     </form>
