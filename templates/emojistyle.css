@@ -125,10 +125,10 @@ button:hover{
     font-size: 16px; /* Font size */
     resize: none;
 }
-.dumbassButton{
+.submit1{
     margin-top: 10px;
 }
-.anotherButton{
+.submit2{
     margin-top: 10px;
 }
 h4{
